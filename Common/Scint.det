@@ -1,0 +1,26 @@
+//Define Calorimeter and Mother Volume
+Scintillator   Scint
+Scint.SensitiveVolume DetCyl
+Scint.DetectorVolume DetCyl
+
+
+
+Scint.StructuralPitch 0. 0. 0.
+Scint.StructuralOffset 0. 0. 0.
+
+Scint.NoiseThreshold   5 
+Scint.TriggerThreshold   10
+
+//Note the noise and trigger thresholds were 30/100 respectively
+
+//Might need to add some to these at lower energies
+Scint.EnergyResolution Gauss   40    40   5
+Scint.EnergyResolution Gauss  100   100   7.5
+Scint.EnergyResolution Gauss  662   662   20
+Scint.EnergyResolution Gauss  2000  2000  33
+Scint.EnergyResolution Gauss  5000  5000  50
+
+
+
+
+ 

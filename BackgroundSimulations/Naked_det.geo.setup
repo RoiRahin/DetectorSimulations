@@ -1,0 +1,43 @@
+/////////
+// 
+// Single Detector
+// Based on NASA simulations for BurstCube
+// Author: Roi Rahin
+//
+/////////
+
+Name TestScint
+Verision 0.0
+
+SurroundingSphere 50.0 0.0 0.0 0.0 50.0
+Include ../Common/Materials.geo
+
+
+Constant det_R 6.35
+Constant det_H 1.27
+
+// The Mother Volume of the Detector Configuration:
+Volume WorldVolume
+WorldVolume.Material Vacuum
+WorldVolume.Visibility 0
+WorldVolume.Color 0
+WorldVolume.Shape BRIK 100. 100. 100.
+WorldVolume.Mother 0
+
+//This is the Detector
+Include ../Common/Scint.det
+
+
+Volume DetCyl
+DetCyl.Material NaI
+DetCyl.Visibility 1
+DetCyl.Color 5
+DetCyl.Shape TUBS 0. det_R {0.5*det_H}  0. 360. 
+DetCyl.Position 0. 0. 0.
+DetCyl.Mother WorldVolume
+
+
+Trigger MainTrigger
+MainTrigger.Veto false
+MainTrigger.TriggerByDetector true
+MainTrigger.Detector Scint 1

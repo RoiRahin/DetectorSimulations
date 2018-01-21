@@ -1,0 +1,76 @@
+/////////
+// 
+// Single Detector
+// Based on NASA simulations for BurstCube
+// Author: Roi Rahin
+//
+/////////
+
+Name TestScint
+Verision 0.0
+
+SurroundingSphere 50.0 0.0 0.0 0.0 50.0
+Include ../Common/Materials.geo
+
+
+Constant det_R 3.81
+Constant det_H 2.54
+Constant overlap_guard 0.001
+Constant casing_thickness 0.2
+Constant extra_H_space 0.5
+Constant window_thickenss 0.03
+
+// The Mother Volume of the Detector Configuration:
+Volume WorldVolume
+WorldVolume.Material Vacuum
+WorldVolume.Visibility 0
+WorldVolume.Color 0
+WorldVolume.Shape BRIK 100. 100. 100.
+WorldVolume.Mother 0
+
+//This is the Detector
+Include ../Common/Scint.det
+
+
+
+
+// Build the housing around the Cylinder 
+Volume AluminiumFrame
+AluminiumFrame.Material Aluminium
+AluminiumFrame.Shape TUBS  det_R {det_R + casing_thickness} {0.5 * (det_H + extra_H_space)} 0. 360. 
+AluminiumFrame.Position 0 0 0
+AluminiumFrame.Color 1
+AluminiumFrame.Visibility 0
+AluminiumFrame.Mother WorldVolume
+
+Volume BrWindow
+BrWindow.Material beryllium 
+BrWindow.Shape TUBS  0. {det_R - overlap_guard} {0.5 * window_thickenss}  0. 360. 
+BrWindow.Position 0 0 {0.5 * (det_H + extra_H_space) - 0.5*window_thickenss}
+BrWindow.Color 4
+BrWindow.Visibility 1
+BrWindow.Mother WorldVolume
+
+//Detector
+Volume DetCyl
+DetCyl.Material NaI
+DetCyl.Visibility 1
+DetCyl.Color 5
+DetCyl.Shape TUBS 0. {det_R - overlap_guard} {0.5*det_H}  0. 360. 
+DetCyl.Position 0. 0. 0.
+DetCyl.Mother WorldVolume
+
+//This chunk is the window on bottom
+//glass? 
+Volume GlassWindow
+GlassWindow.Material Glass
+GlassWindow.Shape TUBS  0. {det_R - overlap_guard} 0.1 0. 360.
+GlassWindow.Position 0 0 {-0.5 * (det_H + extra_H_space) + 0.1}
+GlassWindow.Color 6
+GlassWindow.Visibility 1
+GlassWindow.Mother WorldVolume
+
+Trigger MainTrigger
+MainTrigger.Veto false
+MainTrigger.TriggerByDetector true
+MainTrigger.Detector Scint 1

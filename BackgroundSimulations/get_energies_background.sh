@@ -1,0 +1,1 @@
+grep "^HTsim" $1 | cut -d ";" -f 5 > $2

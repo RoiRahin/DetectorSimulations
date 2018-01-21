@@ -1,0 +1,64 @@
+/////////
+// 
+// Single Detector
+// Based on NASA simulations for BurstCube
+// Author: Roi Rahin
+//
+/////////
+
+Name TestScint
+Verision 0.0
+
+SurroundingSphere 150.0 0.0 0.0 0.0 150.0
+Include ../Common/Materials.geo
+
+
+Constant det_R 3.81
+Constant det_H 2.54
+Constant overlap_guard 0.001
+
+// The Mother Volume of the Detector Configuration:
+Volume WorldVolume
+WorldVolume.Material Vacuum
+WorldVolume.Visibility 0
+WorldVolume.Color 0
+WorldVolume.Shape BRIK 500. 500. 500.
+WorldVolume.Mother 0
+
+//This is the Detector
+Include ../Common/Scint.det
+
+
+// Volume
+Volume DetectorVolume
+DetectorVolume.Material Vacuum
+DetectorVolume.Visibility 1 
+DetectorVolume.Color 1
+DetectorVolume.Shape TUBS 0 {det_R + overlap_guard} {1.2*det_H}
+DetectorVolume.Position 0. 0. 0.
+DetectorVolume.Rotation 0. 90 0.
+DetectorVolume.Mother WorldVolume
+
+//Detector
+Volume DetCyl
+DetCyl.Material NaI
+DetCyl.Visibility 1
+DetCyl.Color 5
+DetCyl.Shape TUBS 0. det_R {0.5*det_H}  0. 360. 
+DetCyl.Position 0. 0. 0.
+DetCyl.Mother DetectorVolume
+
+//Silicon below detector
+Volume SiliconFill
+SiliconFill.Material Silicon
+SiliconFill.Visibility 1
+SiliconFill.Color 8
+SiliconFill.Shape TUBS 0. det_R {0.25*det_H} 0. 360.
+SiliconFill.Position 0. 0. {-0.75*det_H - overlap_guard}
+SiliconFill.Mother DetectorVolume
+
+
+Trigger MainTrigger
+MainTrigger.Veto false
+MainTrigger.TriggerByDetector true
+MainTrigger.Detector Scint 1
