@@ -34,7 +34,8 @@ line.set_label('32 KeV 1 inch theoretical')
 line, = ax.plot(deg,theo_32_05 , 'r--')
 line.set_label('32 KeV 0.5 inch theoretical')
 ax.legend()
-
+ax.set_ylabel(r'Normalized photon count (relative to $\theta$ = 0, 1 inch width)')
+ax.set_xlabel(r'$\theta$')
 
 source = open("single_det2_662_1.out" , 'rb')
 data = []
@@ -59,6 +60,8 @@ norm_data = [x/zenith_hit for x in data]
 line, = ax.plot(deg,norm_data , 'r')
 line.set_label('662 KeV 0.5 inch')
 ax.legend()
-plt.show()
 
+ax.set_ylabel(r'Normalized photon count (relative to $\theta$ = 0, 1 inch width)')
+ax.set_xlabel(r'$\theta$')
+plt.show()
 

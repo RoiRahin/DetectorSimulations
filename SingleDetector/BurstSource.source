@@ -2,7 +2,7 @@
 # This was created with the python wrapper --> create_source_file.py <--
 
 Version          1 
-Geometry         GTM_Single_wall.geo.setup
+Geometry         GTM_Single_Full.geo.setup
 CheckForOverlaps 10000 0.0001 
 PhysicsListEM    Livermore 
 
@@ -12,12 +12,12 @@ StoreOnlyEventsWithEnergyLoss  true  // Only relevant if no trigger criteria is 
 DiscretizeHits                 true 
 
 Run FFPS 
-FFPS.FileName           single_det 
-FFPS.Time             	100
+FFPS.FileName           single_det_burst 
+FFPS.Time             	2
 
 
 FFPS.Source One 
 One.ParticleType        1 
 One.Beam                FarFieldPointSource 90 0.
-One.Spectrum            Mono  662
+One.Spectrum            File  Burst_1.1_2.3_266.0.flux
 One.Flux                5

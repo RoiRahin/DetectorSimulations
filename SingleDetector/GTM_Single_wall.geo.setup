@@ -36,7 +36,7 @@ DetectorVolume.Visibility 0
 DetectorVolume.Color 1
 DetectorVolume.Shape TUBS 0 {det_R + overlap_guard} {1.2*det_H}
 DetectorVolume.Position 0. 0. 0.
-DetectorVolume.Rotation 0. 90 0.
+DetectorVolume.Rotation 0. 0. 0.
 DetectorVolume.Mother WorldVolume
 
 //Detector

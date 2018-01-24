@@ -25,7 +25,6 @@ source.close()
 norm_data = [x/zenith_hit for x in data]
 line, = ax.plot(deg,norm_data , 'r')
 line.set_label('32 KeV with silicon')
-ax.legend()
 
 source = open("single_det_32_wall.out" , 'rb')
 data = []
@@ -36,6 +35,19 @@ source.close()
 norm_data = [x/zenith_hit for x in data]
 line, = ax.plot(deg,norm_data , 'g')
 line.set_label('32 KeV with wall')
+
+
+source = open("single_det_32_rotate_source.out" , 'rb')
+data = []
+for line in source:
+    data.append(float(line))
+source.close()
+# zenith_hit = data[0]
+norm_data = [x/zenith_hit for x in data]
+line, = ax.plot(deg,norm_data , 'k')
+line.set_label('32 KeV changing source angle')
+
+
 ax.legend()
 ax.set_ylabel(r'Normalized photon count (relative to $\theta$ = 0, no silicon or wall)')
 ax.set_xlabel(r'$\theta$')
@@ -73,6 +85,18 @@ source.close()
 norm_data = [x/zenith_hit for x in data]
 line, = ax.plot(deg,norm_data , 'g')
 line.set_label('662 KeV with wall')
+
+source = open("single_det_662_rotate_source.out" , 'rb')
+data = []
+for line in source:
+    data.append(float(line))
+source.close()
+# zenith_hit = data[0]
+norm_data = [x/zenith_hit for x in data]
+line, = ax.plot(deg,norm_data , 'k')
+line.set_label('662 KeV changing source angle')
+
+
 ax.legend()
 ax.set_ylabel(r'Normalized photon count (relative to $\theta$ = 0, no silicon or wall)')
 ax.set_xlabel(r"$\theta$")

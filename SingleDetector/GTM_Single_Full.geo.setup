@@ -1,0 +1,144 @@
+/////////
+// 
+// Single Detector
+// Based on NASA simulations for BurstCube
+// Author: Roi Rahin
+//
+/////////
+
+Name TestScint
+Verision 0.0
+
+SurroundingSphere 50.0 0.0 0.0 0.0 50.0
+Include ../Common/Materials.geo
+
+
+Constant det_R 3.81
+Constant det_H 1.27
+Constant det_H_sil 1.27
+Constant overlap_guard 0.001
+Constant det_casing_H 6.7
+Constant tube_R 2.95
+Constant tube_H 13.3
+Constant casing_thickness 0.2
+Constant window_thickenss 0.05
+
+// The Mother Volume of the Detector Configuration:
+Volume WorldVolume
+WorldVolume.Material Vacuum
+WorldVolume.Visibility 0
+WorldVolume.Color 0
+WorldVolume.Shape BRIK 500. 500. 500.
+WorldVolume.Mother 0
+
+//This is the Detector
+Include ../Common/Scint.det
+
+
+// Device volume 1
+Volume DeviceVolume
+DeviceVolume.Material Vacuum 
+DeviceVolume.Shape TUBS  0. {det_R + casing_thickness + 2*overlap_guard} {0.5*(tube_H + det_casing_H) + 10*overlap_guard}  0. 360. 
+DeviceVolume.Color 1
+DeviceVolume.Visibility 0
+DeviceVolume.Position 0. 0. 0.
+DeviceVolume.Rotation 0. 0. 0.
+DeviceVolume.Mother WorldVolume
+
+// Volume
+Volume DetectorVolume
+DetectorVolume.Material Vacuum
+DetectorVolume.Visibility 0 
+DetectorVolume.Color 1
+DetectorVolume.Shape TUBS 0 {det_R + overlap_guard + casing_thickness} {0.5 * det_casing_H}
+DetectorVolume.Position 0. 0. {0.5*tube_H}
+DetectorVolume.Rotation 0. 0. 0.
+DetectorVolume.Mother DeviceVolume
+
+Volume DetectorHousing
+DetectorHousing.Material Aluminium
+DetectorHousing.Shape TUBS  det_R {det_R + casing_thickness - overlap_guard} {0.5*det_casing_H - overlap_guard} 0. 360.
+DetectorHousing.Position 0 0 0
+DetectorHousing.Color 1
+DetectorHousing.Visibility 0
+DetectorHousing.Mother DetectorVolume
+
+
+Volume BrWindow
+BrWindow.Material beryllium 
+BrWindow.Shape TUBS  0. {det_R - overlap_guard} {0.5*window_thickenss}  0. 360. 
+BrWindow.Position 0 0 {0.5 * det_casing_H - 0.5*window_thickenss}
+BrWindow.Color 4
+BrWindow.Visibility 1
+BrWindow.Mother DetectorVolume
+
+
+//Detector
+Volume DetCyl
+DetCyl.Material NaI
+DetCyl.Visibility 1
+DetCyl.Color 5
+DetCyl.Shape TUBS 0. det_R {0.5*det_H}  0. 360. 
+DetCyl.Position 0. 0. 0.
+DetCyl.Mother DetectorVolume
+
+//Silicon below detector
+Volume SiliconFill
+SiliconFill.Material Silicon
+SiliconFill.Visibility 1
+SiliconFill.Color 8
+SiliconFill.Shape TUBS 0. det_R {0.5*det_H_sil} 0. 360.
+SiliconFill.Position 0. 0. {-0.5*det_H -0.5*det_H_sil - overlap_guard}
+SiliconFill.Mother DetectorVolume
+
+
+
+// close the detector volume
+Volume DetClose
+DetClose.Material Aluminium
+DetClose.Shape TUBS tube_R {det_R - overlap_guard} {casing_thickness * 0.5} 0. 360.
+DetClose.Position 0 0 {-0.5 * det_casing_H + 0.5 * casing_thickness}
+DetClose.Color 11
+DetClose.Visibility 1
+DetClose.Mother DetectorVolume
+
+// PMT
+Volume PMTVolume
+PMTVolume.Material Vacuum
+PMTVolume.Shape TUBS 0 tube_R {0.5 * tube_H} 0. 360.
+PMTVolume.Position 0. 0. {-0.5 * det_casing_H - overlap_guard}
+PMTVolume.Color 3
+PMTVolume.Visibility 0
+PMTVolume.Mother DeviceVolume
+
+// PMT 1
+Volume PMT
+PMT.Material Aluminium
+PMT.Visibility 1
+PMT.Color 11
+PMT.Shape TUBS {tube_R - casing_thickness} {tube_R - overlap_guard} {0.5 * tube_H - overlap_guard} 0. 360.
+PMT.Position 0. 0. 0.
+PMT.Mother PMTVolume
+
+// close PMT
+Volume PMTSeal
+PMTSeal.Material Aluminium
+PMTSeal.Visibility 1
+PMTSeal.Color 12
+PMTSeal.Shape TUBS 0 {tube_R - casing_thickness - overlap_guard} {0.5 * casing_thickness} 0. 360.
+PMTSeal.Position 0. 0. {-0.5 * tube_H + 0.5 * casing_thickness + overlap_guard}
+PMTSeal.Mother PMTVolume
+
+// wall next to detector - made it out of Aluminium
+Volume Wall
+Wall.Material Aluminium
+Wall.Visibility 0
+Wall.Color 1
+Wall.Shape BRIK 150. 150. 30.
+Wall.Position 0. 0 -55
+Wall.Mother WorldVolume
+
+Trigger MainTrigger
+MainTrigger.Veto false
+MainTrigger.TriggerByDetector true
+MainTrigger.Detector Scint 1

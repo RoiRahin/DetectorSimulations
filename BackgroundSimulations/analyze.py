@@ -11,11 +11,16 @@ comp_data=[]
 for point in data:
 	if (point < 300 and point > 50) :
 		comp_data.append(point)
-
+print len(data)/100
 print len(comp_data)/100
 bins = np.linspace(0,1000,1000)
 weights = [1/100.0] * len(data)
-plt.hist(data , bins , weights = weights , histtype = 'step')
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.hist(data , bins , weights = weights , histtype = 'step')
 plt.yscale('log')
 plt.xscale('log')
+ax.set_title('GBM background signal')
+ax.set_xlabel(r'E [KeV]')
+ax.set_ylabel(r'Photon $s^{-1}$')
 fig = plt.show()
