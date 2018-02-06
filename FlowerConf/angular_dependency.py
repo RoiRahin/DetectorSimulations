@@ -3,6 +3,7 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import itertools
+from scipy import interpolate
 
 flower_size = int(sys.argv[1])
 min_energy = float(sys.argv[2])
@@ -46,6 +47,12 @@ angular_relations[: , 0] = angular_dependency[:,0]
 for i in range (0, matsize):
 	angular_relations[i , 1:] = np.array([a/b for a,b in itertools.combinations(angular_dependency[i , range(1,flower_size + 1)] , 2)])
 
+angular_dependency[:,1:] = np.array([row/np.sum(row) for row in angular_dependency[:,1:]])
+
+interp_deg = np.arange(0,90,0.1)
+interp_rel = interpolate.interp1d(angular_relations[:,0] , angular_relations[:,1:], axis = 0, kind="cubic")
+interp_dep = interpolate.interp1d(angular_dependency[:,0] , angular_dependency[:,1:], axis = 0, kind="cubic")
+
 source = open(str(flower_size) + "_flower_test.angle.tst" , 'r')
 data = []
 for line in source:
@@ -70,28 +77,40 @@ for hit in data:
 		else :
 			hit_data[4] += 1
 			# energy_data[4].append(hit[3])
-
 det_relations =  np.array([float(a)/float(b) for a,b in itertools.combinations(hit_data[:flower_size] , 2)])
-
+det_dependency = [float(x) for x in hit_data[:flower_size]]
+det_dependency = det_dependency/np.sum(det_dependency)
+print det_dependency
 mse = 1000
 deg = -1
-for row in angular_relations:
-	error = np.sum((det_relations - row[1:])**2)
-	print error
+for (d,row) in zip(interp_deg,interp_rel(interp_deg)):
+	error = np.sum((det_relations - row)**2)
 	if (error < mse):
 		mse = error
-		deg = row[0]
+		deg = d
 
 print mse
 print deg
 
+mse = 1000
+deg = -1
+for (d,row) in zip(interp_deg,interp_dep(interp_deg)):
+	error = np.sum((det_dependency - row)**2)
+	if (error < mse):
+		mse = error
+		deg = d
+
+print mse
+print deg
 
 # for i in range (0,matsize):
 # 	angular_relations[0 , i] = angular_dependency[0,i]
 # 	angular_relations[1,] = 
 
-
-
-# plt.plot(angular_relations[:,0] , angular_relations[: , 1:])
-# plt.show()
-# # # 
+plt.plot(interp_deg , interp_dep(interp_deg)[:])
+plt.legend(['detector 1' ,'detector 2','detector 3','detector 4','detector 5'])
+plt.xlabel(r'$\theta$')
+plt.title('5 detector configuration')
+plt.ylabel(r'Hit percentage ($\frac{X_i}{\Sigma X_i}$)')
+plt.show() 
+# # 

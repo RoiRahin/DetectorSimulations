@@ -18,6 +18,12 @@ FFPS.Time             	2
 
 FFPS.Source One 
 One.ParticleType        1 
-One.Beam                FarFieldPointSource 41.38 0.
+One.Beam                FarFieldPointSource 7.96 0.
 One.Spectrum            File  Burst_1.1_2.3_266.0.flux
 One.Flux                10
+
+FFPS.Source Background 
+Background.ParticleType        1 
+Background.Beam                FarFieldAreaSource  0 180 0 360 
+Background.Spectrum            File  ../BackgroundSimulations/background.input
+Background.Flux                108

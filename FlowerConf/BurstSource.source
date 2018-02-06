@@ -2,7 +2,7 @@
 # This was created with the python wrapper --> create_source_file.py <--
 
 Version          1 
-Geometry         5_flower.geo.setup
+Geometry         4_flower.geo.setup
 CheckForOverlaps 10000 0.0001 
 PhysicsListEM    Livermore 
 
@@ -18,6 +18,6 @@ FFPS.Time             	20
 
 FFPS.Source One 
 One.ParticleType        1 
-One.Beam                FarFieldPointSource 90 0.
+One.Beam                FarFieldPointSource 15 35
 One.Spectrum            File  Burst_1.1_2.3_266.0.flux
 One.Flux                50

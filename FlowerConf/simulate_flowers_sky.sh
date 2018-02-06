@@ -1,0 +1,60 @@
+#this is an auto simulator. It only works for BurstSource.source and very similar files
+rm *.burst.out
+rm *.burst.count
+
+GEO="Geometry         4_flower.geo.setup" 
+sed -i "5s/.*/$GEO/" BurstSource.source
+echo "now simulating for 4-flower"
+THETA=0
+echo "now simulating for theta = $THETA"
+beam="One.Beam                FarFieldPointSource $THETA 0"
+sed -i "21s/.*/$beam/" BurstSource.source
+cosima -v 0  BurstSource.source > /dev/null
+grep "^HTsim" flower_burst.inc1.id1.sim | wc -l >> 4_flower.burst.count
+grep "^HTsim" flower_burst.inc1.id1.sim | cut -d ";" -f 2-5 > 4_flower_${THETA}.burst.out
+rm flower_burst.inc1.id1.sim
+let THETA=THETA+$1
+
+PHI=0
+while [  $THETA -le 90 ]; do
+	echo "now simulating for theta = $THETA"
+		while [  $PHI -le 360 ]; do	
+			beam="One.Beam                FarFieldPointSource $THETA $PHI"
+			sed -i "21s/.*/$beam/" BurstSource.source
+			cosima -v 0  BurstSource.source > /dev/null
+			grep "^HTsim" flower_burst.inc1.id1.sim | wc -l >> 4_flower.burst.count
+			grep "^HTsim" flower_burst.inc1.id1.sim | cut -d ";" -f 2-5 > 4_flower_${THETA}_$PHI.burst.out
+			rm flower_burst.inc1.id1.sim
+			let PHI=PHI+$2
+		done
+		let THETA=THETA+$1
+		let PHI=0
+done
+
+GEO="Geometry         5_flower.geo.setup" 
+sed -i "5s/.*/$GEO/" BurstSource.source
+echo "now simulating for 5-flower"
+let THETA=0
+echo "now simulating for theta = $THETA"
+beam="One.Beam                FarFieldPointSource $THETA 0"
+sed -i "21s/.*/$beam/" BurstSource.source
+cosima -v 0  BurstSource.source > /dev/null
+grep "^HTsim" flower_burst.inc1.id1.sim | wc -l >> 5_flower.burst.count
+grep "^HTsim" flower_burst.inc1.id1.sim | cut -d ";" -f 2-5 > 5_flower_${THETA}.burst.out
+rm flower_burst.inc1.id1.sim
+let THETA=THETA+$1
+while [  $THETA -le 90 ]; do
+	echo "now simulating for theta = $THETA"
+		while [  $PHI -le 360 ]; do	
+			beam="One.Beam                FarFieldPointSource $THETA $PHI"
+			sed -i "21s/.*/$beam/" BurstSource.source
+			cosima -v 0  BurstSource.source > /dev/null
+			grep "^HTsim" flower_burst.inc1.id1.sim | wc -l >> 5_flower.burst.count
+			grep "^HTsim" flower_burst.inc1.id1.sim | cut -d ";" -f 2-5 > 5_flower_${THETA}_$PHI.burst.out
+			rm flower_burst.inc1.id1.sim
+			let PHI=PHI+$2
+		done
+		let THETA=THETA+$1
+		let PHI=0
+done
+

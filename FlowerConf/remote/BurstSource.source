@@ -1,0 +1,21 @@
+Version          1
+Geometry         ~/5_flower.geo.setup
+CheckForOverlaps 10000 0.0001
+PhysicsListEM    Livermore
+
+StoreCalibrate                 true
+StoreSimulationInfo            false
+StoreOnlyEventsWithEnergyLoss  true  // Only relevant if no trigger criteria is given!
+DiscretizeHits                 true
+
+Run FFPS
+FFPS.FileName           /storage/ph_behar/roir/temp_sim/flower_burst
+FFPS.Time               20
+
+
+FFPS.Source One
+One.ParticleType        1
+One.Beam                FarFieldPointSource 15 35
+One.Spectrum            File  Burst_1.1_2.3_266.0.flux
+One.Flux                50
+

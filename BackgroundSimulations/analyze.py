@@ -9,10 +9,10 @@ for line in source:
 
 comp_data=[]
 for point in data:
-	if (point < 300 and point > 50) :
+	if (point < 1000 and point > 500) :
 		comp_data.append(point)
-print len(data)/100
-print len(comp_data)/100
+print len(data)/100.0
+print len(comp_data)/100.0
 bins = np.linspace(0,1000,1000)
 weights = [1/100.0] * len(data)
 fig = plt.figure()

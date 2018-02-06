@@ -321,9 +321,12 @@ XenonLXeGRIT.Density            3.0
 XenonLXeGRIT.Component          Xe  1
    
 
+// Paraffin, mostly a guess but density should be ok
 
-
-
+Material Paraffin
+Paraffin.Density          0.9
+Paraffin.ComponentByMass  C   0.85
+Paraffin.ComponentByMass  H   0.15
 
 
 
