@@ -43,7 +43,7 @@ Include ../Common/Scint.det
 // test.Visibility 1 
 // test.Color 35
 // test.Shape SPHE 0 85 0 180 0 360
-// test.Position {7.5 + det_R + displacement + casing_thickness} {-43.75 + det_R + displacement + casing_thickness} -51.5 
+// test.Position {10 + det_R + displacement + casing_thickness} {-43.75 + det_R + displacement + casing_thickness} -51.5 
 // test.Mother WorldVolume 
 
 // Device volume 
@@ -153,8 +153,8 @@ Volume Wall
 Wall.Material Aluminium
 Wall.Visibility 1
 Wall.Color 14
-Wall.Shape BRIK 2.5 43.75 60
-Wall.Position {7.5 + det_R + displacement + casing_thickness + 10*overlap_guard} {-43.75 + det_R + displacement + casing_thickness} -51.5
+Wall.Shape BRIK 5 43.75 60
+Wall.Position {10 + det_R + displacement + casing_thickness + 10*overlap_guard} {-43.75 + det_R + displacement + casing_thickness} -51.5
 Wall.Mother WorldVolume
 
 

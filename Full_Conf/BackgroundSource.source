@@ -13,11 +13,11 @@ DiscretizeHits                 true
 
 Run FFPS 
 FFPS.FileName           Background
-FFPS.Time             	100
+FFPS.Time             	1000
 
 
-FFPS.Source One 
-One.ParticleType        1 
-One.Beam                FarFieldAreaSource  0 180 0 360 
-One.Spectrum            File ../BackgroundSimulations/background.input
-One.Flux                108
+FFPS.Source Background 
+Background.ParticleType        1 
+Background.Beam                FarFieldAreaSource  0 180 0 360 
+Background.Spectrum            File ../BackgroundSimulations/background.input
+Background.Flux                108
